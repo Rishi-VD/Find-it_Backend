@@ -19,8 +19,6 @@ router.put("/:id/found", async (req, res) => {
     try {
         const { id } = req.params;
         const { name, email, phone, title, description, category } = req.body;
-
-        // 1. Update the original PostItem status
         const lostItem = await PostItems.findByIdAndUpdate(
             id,
             { status: "Found" },
@@ -28,13 +26,10 @@ router.put("/:id/found", async (req, res) => {
         );
         if (!lostItem) return res.status(404).json({ error: "Item not found" });
 
-        // 2. Check if this item is already in success stories
         const alreadyExists = await Item.findOne({ originalId: id });
         if (alreadyExists) {
             return res.json({ message: "Already added to success stories", foundItem: alreadyExists });
         }
-
-        // 2. Save into SuccessStories collection
         const foundItem = new Item({
             title: lostItem.title,
             description: lostItem.description,
