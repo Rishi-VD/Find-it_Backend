@@ -11,9 +11,6 @@
         "src": "/api/(.*)",
         "dest": "/index.js"
       }
-    ],
-    "env": {
-      "DATABASE_URL": "@database_url"
-    }
+    ]
 }
   
